@@ -49,6 +49,17 @@ app.post('/api/expenses', async (req, res) => {
   }
 });
 
+app.post('/api/viewExpenses', async (req, res) => {
+  const { userEmail } = req.body;
+  try {
+    const userExpenses = await expensesCollection.find({ userEmail }).toArray();
+    res.status(200).json(userExpenses);
+  } catch (error) {
+    console.log('hello');
+    res.status(400).json({ error: 'Failed to retrieve expenses' });
+  }
+});
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
